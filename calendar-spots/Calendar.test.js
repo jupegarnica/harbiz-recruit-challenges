@@ -24,7 +24,7 @@ describe('getAvailableSpot', function () {
 
 describe('getAvailableSpot', function () {
 	it('Should get no available spots of calendar 3', function () {
-		let result = Calendar.getAvailableSpots(2, "16-04-2023", 25)
+		let result = Calendar.getAvailableSpots(3, "16-04-2023", 25)
 		assert.ok(result)
 		assert.equal(result.length, 0)
 	})
