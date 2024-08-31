@@ -2,7 +2,7 @@ const moment = require('moment');
 const fs = require('fs');
 
 class Calendar {
-  getAvailableSpots(calendar, date, duration) {
+  getAvailableSpots (calendar, date, duration) {
     const rawdata = fs.readFileSync(`./calendars/calendar.${calendar}.json`);
     const data = JSON.parse(rawdata);
 
