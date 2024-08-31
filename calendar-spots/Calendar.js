@@ -96,4 +96,5 @@ class Calendar {
   }
 }
 
+// export instance as singleton in order to not change the external api.
 module.exports = new Calendar();
