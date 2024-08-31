@@ -48,9 +48,7 @@ class Calendar {
     });
 
     const arrSlot = [];
-    realSpots.forEach(slot => {
-      // no real use of init.  REMOVE IT
-      // let init = 0;
+    for (const slot of realSpots) {
       let startHour;
       let endHour;
       let clientStartHour;
@@ -58,8 +56,6 @@ class Calendar {
 
       const getMomentHour = hour => moment(dateISO + ' ' + hour);
       const addMinutes = (hour, minutes) => moment(hour).add(minutes, 'minutes').format('HH:mm');
-      // no use of this function.  REMOVE IT
-      // const removeMinutes = (hour, minutes) => moment(hour).subtract(minutes, 'minutes').format('HH:mm');
 
       const getOneMiniSlot = (startSlot, endSlot) => {
         const startHourFirst = getMomentHour(startSlot);
@@ -78,8 +74,6 @@ class Calendar {
           clientStartHour: moment.utc(dateISO + ' ' + clientStartHour).toDate(),
           clientEndHour: moment.utc(dateISO + ' ' + clientEndHour).toDate()
         };
-        // no real use of init.  REMOVE IT
-        // init += 1;
         return objSlot;
       };
 
@@ -92,9 +86,7 @@ class Calendar {
           start = moment.utc(resultSlot.endHour).format('HH:mm');
         }
       } while (resultSlot);
-
-      return arrSlot;
-    });
+    }
     return arrSlot;
   }
 }
