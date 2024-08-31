@@ -58,7 +58,8 @@ class Calendar {
 
       const getMomentHour = hour => moment(dateISO + ' ' + hour);
       const addMinutes = (hour, minutes) => moment(hour).add(minutes, 'minutes').format('HH:mm');
-      const removeMinutes = (hour, minutes) => moment(hour).subtract(minutes, 'minutes').format('HH:mm');
+      // no use of this function.  REMOVE IT
+      // const removeMinutes = (hour, minutes) => moment(hour).subtract(minutes, 'minutes').format('HH:mm');
 
       const getOneMiniSlot = (startSlot, endSlot) => {
         const startHourFirst = getMomentHour(startSlot);
