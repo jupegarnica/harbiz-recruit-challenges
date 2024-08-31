@@ -17,10 +17,10 @@ class Calendar {
     }
 
     const realSpots = [];
-    daySlots.forEach(daySlot => {
+    for (const daySlot of daySlots) {
       if (data.sessions && data.sessions[date]) {
         let noConflicts = true;
-        data.sessions[date].forEach(sessionSlot => {
+        for (const sessionSlot of data.sessions[date]) {
           const sessionStart = moment(dateISO + ' ' + sessionSlot.start).valueOf();
           const sessionEnd = moment(dateISO + ' ' + sessionSlot.end).valueOf();
           const start = moment(dateISO + ' ' + daySlot.start).valueOf();
@@ -38,14 +38,14 @@ class Calendar {
           } else if (sessionStart === start && sessionEnd === end) {
             noConflicts = false;
           }
-        });
+        }
         if (noConflicts) {
           realSpots.push(daySlot);
         }
       } else {
         realSpots.push(daySlot);
       }
-    });
+    }
 
     const arrSlot = [];
     for (const slot of realSpots) {
