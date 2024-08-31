@@ -57,37 +57,11 @@ class Calendar {
 
     const arrSlot = [];
     for (const slot of realSpots) {
-      let startHour;
-      let endHour;
-      let clientStartHour;
-      let clientEndHour;
-
-      // const addMinutes = (hour, minutes) => moment(hour).add(minutes, 'minutes').format('HH:mm');
-
-      const getOneMiniSlot = (startSlot, endSlot) => {
-        const startHourFirst = this.#getMomentHour(dateISO, startSlot);
-
-        startHour = startHourFirst.format('HH:mm');
-        endHour = this.#addMinutes(startHourFirst, durationBefore + duration + durationAfter);
-        clientStartHour = this.#addMinutes(startHourFirst, durationBefore);
-        clientEndHour = this.#addMinutes(startHourFirst, duration);
-
-        if (moment.utc(endHour, 'HH:mm').valueOf() > moment.utc(endSlot, 'HH:mm').valueOf()) {
-          return null;
-        }
-        const objSlot = {
-          startHour: moment.utc(dateISO + ' ' + startHour).toDate(),
-          endHour: moment.utc(dateISO + ' ' + endHour).toDate(),
-          clientStartHour: moment.utc(dateISO + ' ' + clientStartHour).toDate(),
-          clientEndHour: moment.utc(dateISO + ' ' + clientEndHour).toDate()
-        };
-        return objSlot;
-      };
 
       let start = slot.start;
       let resultSlot;
       do {
-        resultSlot = getOneMiniSlot(start, slot.end);
+        resultSlot = this.#getOneMiniSlot(start, slot.end, duration, dateISO, durationBefore, durationAfter);
         if (resultSlot) {
           arrSlot.push(resultSlot);
           start = moment.utc(resultSlot.endHour).format('HH:mm');
@@ -96,6 +70,29 @@ class Calendar {
     }
     return arrSlot;
   }
+  #getOneMiniSlot(startSlot, endSlot, duration, dateISO, durationBefore, durationAfter) {
+    let startHour;
+    let endHour;
+    let clientStartHour;
+    let clientEndHour;
+    const startHourFirst = this.#getMomentHour(dateISO, startSlot);
+
+    startHour = startHourFirst.format('HH:mm');
+    endHour = this.#addMinutes(startHourFirst, durationBefore + duration + durationAfter);
+    clientStartHour = this.#addMinutes(startHourFirst, durationBefore);
+    clientEndHour = this.#addMinutes(startHourFirst, duration);
+
+    if (moment.utc(endHour, 'HH:mm').valueOf() > moment.utc(endSlot, 'HH:mm').valueOf()) {
+      return null;
+    }
+    const objSlot = {
+      startHour: moment.utc(dateISO + ' ' + startHour).toDate(),
+      endHour: moment.utc(dateISO + ' ' + endHour).toDate(),
+      clientStartHour: moment.utc(dateISO + ' ' + clientStartHour).toDate(),
+      clientEndHour: moment.utc(dateISO + ' ' + clientEndHour).toDate()
+    };
+    return objSlot;
+  };
 }
 
 // export instance as singleton in order to not change the external api.
