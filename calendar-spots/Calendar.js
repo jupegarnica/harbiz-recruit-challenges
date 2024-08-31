@@ -2,14 +2,6 @@ const moment = require('moment');
 const fs = require('fs');
 
 class Calendar {
-
-  #getMomentHour(dateISO, hour) {
-    return moment(dateISO + ' ' + hour);
-  }
-  #addMinutes(hour, minutes) {
-    return moment(hour).add(minutes, 'minutes').format('HH:mm');
-  }
-
   getAvailableSpots(calendar, date, duration) {
     const rawdata = fs.readFileSync(`./calendars/calendar.${calendar}.json`);
     const data = JSON.parse(rawdata);
@@ -70,6 +62,14 @@ class Calendar {
     }
     return arrSlot;
   }
+  #getMomentHour(dateISO, hour) {
+    return moment(dateISO + ' ' + hour);
+  }
+  #addMinutes(hour, minutes) {
+    return moment(hour).add(minutes, 'minutes').format('HH:mm');
+  }
+
+
   #getOneMiniSlot(startSlot, endSlot, duration, dateISO, durationBefore, durationAfter) {
     let startHour;
     let endHour;
