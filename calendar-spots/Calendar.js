@@ -2,6 +2,14 @@ const moment = require('moment');
 const fs = require('fs');
 
 class Calendar {
+
+  #getMomentHour(dateISO, hour) {
+    return moment(dateISO + ' ' + hour);
+  }
+  #addMinutes(hour, minutes) {
+    return moment(hour).add(minutes, 'minutes').format('HH:mm');
+  }
+
   getAvailableSpots(calendar, date, duration) {
     const rawdata = fs.readFileSync(`./calendars/calendar.${calendar}.json`);
     const data = JSON.parse(rawdata);
@@ -54,16 +62,15 @@ class Calendar {
       let clientStartHour;
       let clientEndHour;
 
-      const getMomentHour = hour => moment(dateISO + ' ' + hour);
-      const addMinutes = (hour, minutes) => moment(hour).add(minutes, 'minutes').format('HH:mm');
+      // const addMinutes = (hour, minutes) => moment(hour).add(minutes, 'minutes').format('HH:mm');
 
       const getOneMiniSlot = (startSlot, endSlot) => {
-        const startHourFirst = getMomentHour(startSlot);
+        const startHourFirst = this.#getMomentHour(dateISO, startSlot);
 
         startHour = startHourFirst.format('HH:mm');
-        endHour = addMinutes(startHourFirst, durationBefore + duration + durationAfter);
-        clientStartHour = addMinutes(startHourFirst, durationBefore);
-        clientEndHour = addMinutes(startHourFirst, duration);
+        endHour = this.#addMinutes(startHourFirst, durationBefore + duration + durationAfter);
+        clientStartHour = this.#addMinutes(startHourFirst, durationBefore);
+        clientEndHour = this.#addMinutes(startHourFirst, duration);
 
         if (moment.utc(endHour, 'HH:mm').valueOf() > moment.utc(endSlot, 'HH:mm').valueOf()) {
           return null;
