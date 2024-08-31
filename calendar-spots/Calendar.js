@@ -95,5 +95,7 @@ class Calendar {
   };
 }
 
-// export instance as singleton in order to not change the external api.
+// export instance as singleton in order to not change the external api. Otherwise, we would have to change the require statement in the tests.
+// Another option would be to create a static method getAvailableSpots as looks to be used in the tests `const result = Calendar.getAvailableSpots(1, '10-04-2023', 30)`
+
 module.exports = new Calendar();
