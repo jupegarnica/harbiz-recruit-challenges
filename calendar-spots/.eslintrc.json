@@ -1,7 +1,8 @@
 {
     "extends": "standard",
     "rules": {
-        "semi": "off"
+        "semi": "off",
+        "no-unused-private-class-members": "off"
     },
     "globals": {
         "it": false,
