@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest Calendar.test.js",
-    "lint": "eslint ."
+    "lint": "eslint . --fix"
   },
   "author": "Amine <amine@harbiz.io>",
   "license": "ISC",
