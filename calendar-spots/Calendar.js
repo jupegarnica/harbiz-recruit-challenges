@@ -2,7 +2,7 @@ const moment = require('moment');
 const fs = require('fs');
 
 class Calendar {
-  getAvailableSpots (calendar, date, duration) {
+  getAvailableSpots(calendar, date, duration) {
     const rawdata = fs.readFileSync(`./calendars/calendar.${calendar}.json`);
     const data = JSON.parse(rawdata);
 
@@ -49,7 +49,8 @@ class Calendar {
 
     const arrSlot = [];
     realSpots.forEach(slot => {
-      let init = 0;
+      // no real use of init.  REMOVE IT
+      // let init = 0;
       let startHour;
       let endHour;
       let clientStartHour;
@@ -76,7 +77,8 @@ class Calendar {
           clientStartHour: moment.utc(dateISO + ' ' + clientStartHour).toDate(),
           clientEndHour: moment.utc(dateISO + ' ' + clientEndHour).toDate()
         };
-        init += 1;
+        // no real use of init.  REMOVE IT
+        // init += 1;
         return objSlot;
       };
 
