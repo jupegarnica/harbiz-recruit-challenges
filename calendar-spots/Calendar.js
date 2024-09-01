@@ -1,4 +1,6 @@
 // I would change moment to date-fns, to improve the performance and the bundle size.
+
+// I would use es6 modules instead of commonjs, to avoid the use of require and module.exports. But Jest is a bit tricky to work with es6 modules.
 const moment = require('moment');
 const fs = require('fs');
 
