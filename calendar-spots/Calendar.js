@@ -4,7 +4,19 @@ const fs = require('fs');
 
 
 class Calendar {
+  getAvailableSpots(calendar, date, duration) {
 
+    const data = this._getCalendarData(calendar);
+
+    const dateISO = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    const durationBefore = data.durationBefore;
+    const durationAfter = data.durationAfter;
+
+    const daySlots = this._createDaySlot(data.slots, date);
+    const realSpots = this._createRealSpots(daySlots, date, dateISO, data);
+    const arrSlot = this._createArrSlot(realSpots, dateISO, duration, durationBefore, durationAfter);
+    return arrSlot;
+  }
   _getCalendarPath(calendar) {
     return `./calendars/calendar.${calendar}.json`;
   }
@@ -72,19 +84,7 @@ class Calendar {
     }
     return arrSlot;
   }
-  getAvailableSpots(calendar, date, duration) {
 
-    const data = this._getCalendarData(calendar);
-
-    const dateISO = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
-    const durationBefore = data.durationBefore;
-    const durationAfter = data.durationAfter;
-
-    const daySlots = this._createDaySlot(data.slots, date);
-    const realSpots = this._createRealSpots(daySlots, date, dateISO, data);
-    const arrSlot = this._createArrSlot(realSpots, dateISO, duration, durationBefore, durationAfter);
-    return arrSlot;
-  }
 
   _getMomentHour(dateISO, hour) {
     return moment(dateISO + ' ' + hour);
