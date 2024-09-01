@@ -1,10 +1,22 @@
 const moment = require('moment');
 const fs = require('fs');
 
+
+
 class Calendar {
-  getAvailableSpots (calendar, date, duration) {
-    const rawdata = fs.readFileSync(`./calendars/calendar.${calendar}.json`);
-    const data = JSON.parse(rawdata);
+
+  _getCalendarPath(calendar) {
+    return `./calendars/calendar.${calendar}.json`;
+  }
+  _getCalendarData(calendar) {
+    const rawData = fs.readFileSync(this._getCalendarPath(calendar));
+    return JSON.parse(rawData);
+  }
+
+
+  getAvailableSpots(calendar, date, duration) {
+
+    const data = this._getCalendarData(calendar);
 
     const dateISO = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
     const durationBefore = data.durationBefore;
@@ -62,15 +74,15 @@ class Calendar {
     return arrSlot;
   }
 
-  _getMomentHour (dateISO, hour) {
+  _getMomentHour(dateISO, hour) {
     return moment(dateISO + ' ' + hour);
   }
 
-  _addMinutes (hour, minutes) {
+  _addMinutes(hour, minutes) {
     return moment(hour).add(minutes, 'minutes').format('HH:mm');
   }
 
-  _getOneMiniSlot (startSlot, endSlot, duration, dateISO, durationBefore, durationAfter) {
+  _getOneMiniSlot(startSlot, endSlot, duration, dateISO, durationBefore, durationAfter) {
     const startHourFirst = this._getMomentHour(dateISO, startSlot);
 
     const startHour = startHourFirst.format('HH:mm');
