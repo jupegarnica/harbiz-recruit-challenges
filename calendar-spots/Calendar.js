@@ -2,11 +2,8 @@
 const moment = require('moment');
 const fs = require('fs');
 
-
-
 class Calendar {
-  getAvailableSpots(calendar, date, duration) {
-
+  getAvailableSpots (calendar, date, duration) {
     // I will not mess with refactoring the business logic , because I have no idea what should be.
     // I will just refactor the code to make it more readable and maintainable.
     const data = this._getCalendarData(calendar);
@@ -19,16 +16,18 @@ class Calendar {
     const arrSlot = this._createArrSlot(realSpots, dateISO, duration, durationBefore, durationAfter);
     return arrSlot;
   }
-  _getCalendarPath(calendar) {
+
+  _getCalendarPath (calendar) {
     return `./calendars/calendar.${calendar}.json`;
   }
-  _getCalendarData(calendar) {
+
+  _getCalendarData (calendar) {
     // I would change the way to read the file, to use async/await, to avoid blocking the event loop.
     const rawData = fs.readFileSync(this._getCalendarPath(calendar));
     return JSON.parse(rawData);
   }
 
-  _createDaySlot(slots, date) {
+  _createDaySlot (slots, date) {
     let daySlots = [];
     for (const key in slots) {
       if (key === date) {
@@ -38,8 +37,7 @@ class Calendar {
     return daySlots;
   }
 
-  _createRealSpots(daySlots, date, dateISO, data) {
-
+  _createRealSpots (daySlots, date, dateISO, data) {
     const realSpots = [];
     for (const daySlot of daySlots) {
       if (data.sessions && data.sessions[date]) {
@@ -73,7 +71,7 @@ class Calendar {
     return realSpots;
   }
 
-  _createArrSlot(realSpots, dateISO, duration, durationBefore, durationAfter) {
+  _createArrSlot (realSpots, dateISO, duration, durationBefore, durationAfter) {
     const arrSlot = [];
     for (const slot of realSpots) {
       let start = slot.start;
@@ -89,16 +87,15 @@ class Calendar {
     return arrSlot;
   }
 
-
-  _getMomentHour(dateISO, hour) {
+  _getMomentHour (dateISO, hour) {
     return moment(dateISO + ' ' + hour);
   }
 
-  _addMinutes(hour, minutes) {
+  _addMinutes (hour, minutes) {
     return moment(hour).add(minutes, 'minutes').format('HH:mm');
   }
 
-  _getOneMiniSlot(startSlot, endSlot, duration, dateISO, durationBefore, durationAfter) {
+  _getOneMiniSlot (startSlot, endSlot, duration, dateISO, durationBefore, durationAfter) {
     const startHourFirst = this._getMomentHour(dateISO, startSlot);
 
     const startHour = startHourFirst.format('HH:mm');
