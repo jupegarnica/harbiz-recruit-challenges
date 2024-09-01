@@ -6,12 +6,13 @@ const fs = require('fs');
 class Calendar {
   getAvailableSpots(calendar, date, duration) {
 
+    // I will not mess with refactoring the business logic , because I have no idea what should be.
+    // I will just refactor the code to make it more readable and maintainable.
     const data = this._getCalendarData(calendar);
 
     const dateISO = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
     const durationBefore = data.durationBefore;
     const durationAfter = data.durationAfter;
-
     const daySlots = this._createDaySlot(data.slots, date);
     const realSpots = this._createRealSpots(daySlots, date, dateISO, data);
     const arrSlot = this._createArrSlot(realSpots, dateISO, duration, durationBefore, durationAfter);
@@ -36,6 +37,7 @@ class Calendar {
   }
 
   _createRealSpots(daySlots, date, dateISO, data) {
+
     const realSpots = [];
     for (const daySlot of daySlots) {
       if (data.sessions && data.sessions[date]) {
