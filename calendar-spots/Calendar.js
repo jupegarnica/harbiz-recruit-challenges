@@ -1,3 +1,4 @@
+// I would change moment to date-fns, to improve the performance and the bundle size.
 const moment = require('moment');
 const fs = require('fs');
 
