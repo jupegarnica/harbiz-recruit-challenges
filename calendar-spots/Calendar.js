@@ -13,7 +13,7 @@ class Calendar {
     return JSON.parse(rawData);
   }
 
-  _createDaySlot(slots) {
+  _createDaySlot(slots, date) {
     let daySlots = [];
     for (const key in slots) {
       if (key === date) {
@@ -22,16 +22,8 @@ class Calendar {
     }
     return daySlots;
   }
-  getAvailableSpots(calendar, date, duration) {
 
-    const data = this._getCalendarData(calendar);
-
-    const dateISO = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
-    const durationBefore = data.durationBefore;
-    const durationAfter = data.durationAfter;
-
-    const daySlots = this._createDaySlot(data.slots);
-
+  _createRealSpots(daySlots, date, dateISO, data) {
     const realSpots = [];
     for (const daySlot of daySlots) {
       if (data.sessions && data.sessions[date]) {
@@ -62,7 +54,10 @@ class Calendar {
         realSpots.push(daySlot);
       }
     }
+    return realSpots;
+  }
 
+  _createArrSlot(realSpots, dateISO, duration, durationBefore, durationAfter) {
     const arrSlot = [];
     for (const slot of realSpots) {
       let start = slot.start;
@@ -75,6 +70,19 @@ class Calendar {
         }
       } while (resultSlot);
     }
+    return arrSlot;
+  }
+  getAvailableSpots(calendar, date, duration) {
+
+    const data = this._getCalendarData(calendar);
+
+    const dateISO = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    const durationBefore = data.durationBefore;
+    const durationAfter = data.durationAfter;
+
+    const daySlots = this._createDaySlot(data.slots, date);
+    const realSpots = this._createRealSpots(daySlots, date, dateISO, data);
+    const arrSlot = this._createArrSlot(realSpots, dateISO, duration, durationBefore, durationAfter);
     return arrSlot;
   }
 
