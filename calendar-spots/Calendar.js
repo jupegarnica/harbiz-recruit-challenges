@@ -71,16 +71,12 @@ class Calendar {
   }
 
   _getOneMiniSlot (startSlot, endSlot, duration, dateISO, durationBefore, durationAfter) {
-    let startHour;
-    let endHour;
-    let clientStartHour;
-    let clientEndHour;
     const startHourFirst = this._getMomentHour(dateISO, startSlot);
 
-    startHour = startHourFirst.format('HH:mm');
-    endHour = this._addMinutes(startHourFirst, durationBefore + duration + durationAfter);
-    clientStartHour = this._addMinutes(startHourFirst, durationBefore);
-    clientEndHour = this._addMinutes(startHourFirst, duration);
+    const startHour = startHourFirst.format('HH:mm');
+    const endHour = this._addMinutes(startHourFirst, durationBefore + duration + durationAfter);
+    const clientStartHour = this._addMinutes(startHourFirst, durationBefore);
+    const clientEndHour = this._addMinutes(startHourFirst, duration);
 
     if (moment.utc(endHour, 'HH:mm').valueOf() > moment.utc(endSlot, 'HH:mm').valueOf()) {
       return null;
