@@ -2,7 +2,7 @@ const moment = require('moment');
 const fs = require('fs');
 
 class Calendar {
-  getAvailableSpots(calendar, date, duration) {
+  getAvailableSpots (calendar, date, duration) {
     const rawdata = fs.readFileSync(`./calendars/calendar.${calendar}.json`);
     const data = JSON.parse(rawdata);
 
@@ -49,11 +49,10 @@ class Calendar {
 
     const arrSlot = [];
     for (const slot of realSpots) {
-
       let start = slot.start;
       let resultSlot;
       do {
-        resultSlot = this.#getOneMiniSlot(start, slot.end, duration, dateISO, durationBefore, durationAfter);
+        resultSlot = this._getOneMiniSlot(start, slot.end, duration, dateISO, durationBefore, durationAfter);
         if (resultSlot) {
           arrSlot.push(resultSlot);
           start = moment.utc(resultSlot.endHour).format('HH:mm');
@@ -62,25 +61,26 @@ class Calendar {
     }
     return arrSlot;
   }
-  #getMomentHour(dateISO, hour) {
+
+  _getMomentHour (dateISO, hour) {
     return moment(dateISO + ' ' + hour);
   }
-  #addMinutes(hour, minutes) {
+
+  _addMinutes (hour, minutes) {
     return moment(hour).add(minutes, 'minutes').format('HH:mm');
   }
 
-
-  #getOneMiniSlot(startSlot, endSlot, duration, dateISO, durationBefore, durationAfter) {
+  _getOneMiniSlot (startSlot, endSlot, duration, dateISO, durationBefore, durationAfter) {
     let startHour;
     let endHour;
     let clientStartHour;
     let clientEndHour;
-    const startHourFirst = this.#getMomentHour(dateISO, startSlot);
+    const startHourFirst = this._getMomentHour(dateISO, startSlot);
 
     startHour = startHourFirst.format('HH:mm');
-    endHour = this.#addMinutes(startHourFirst, durationBefore + duration + durationAfter);
-    clientStartHour = this.#addMinutes(startHourFirst, durationBefore);
-    clientEndHour = this.#addMinutes(startHourFirst, duration);
+    endHour = this._addMinutes(startHourFirst, durationBefore + duration + durationAfter);
+    clientStartHour = this._addMinutes(startHourFirst, durationBefore);
+    clientEndHour = this._addMinutes(startHourFirst, duration);
 
     if (moment.utc(endHour, 'HH:mm').valueOf() > moment.utc(endSlot, 'HH:mm').valueOf()) {
       return null;
