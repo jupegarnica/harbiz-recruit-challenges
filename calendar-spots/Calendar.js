@@ -13,7 +13,15 @@ class Calendar {
     return JSON.parse(rawData);
   }
 
-
+  _createDaySlot(slots) {
+    let daySlots = [];
+    for (const key in slots) {
+      if (key === date) {
+        daySlots = slots[key];
+      }
+    }
+    return daySlots;
+  }
   getAvailableSpots(calendar, date, duration) {
 
     const data = this._getCalendarData(calendar);
@@ -21,12 +29,8 @@ class Calendar {
     const dateISO = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
     const durationBefore = data.durationBefore;
     const durationAfter = data.durationAfter;
-    let daySlots = [];
-    for (const key in data.slots) {
-      if (key === date) {
-        daySlots = data.slots[key];
-      }
-    }
+
+    const daySlots = this._createDaySlot(data.slots);
 
     const realSpots = [];
     for (const daySlot of daySlots) {
