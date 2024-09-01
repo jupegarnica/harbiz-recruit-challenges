@@ -23,6 +23,7 @@ class Calendar {
     return `./calendars/calendar.${calendar}.json`;
   }
   _getCalendarData(calendar) {
+    // I would change the way to read the file, to use async/await, to avoid blocking the event loop.
     const rawData = fs.readFileSync(this._getCalendarPath(calendar));
     return JSON.parse(rawData);
   }
